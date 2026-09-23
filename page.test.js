@@ -14,9 +14,19 @@ const ASSETS = {
 // Review Focus 4: the hrefs must be complete in the markup, because JS is
 // never allowed to build them. If these are absent from the HTML, a visitor
 // without working JS has no way to download anything.
-test('every download href is a complete static URL in the markup', () => {
+//
+// Asserts the URL is an href on an actual <a>, not just present somewhere in
+// the file. A review found that `html.includes(url)` passed against a page
+// whose macOS anchor had no href at all, with the URL surviving only inside an
+// HTML comment — a dead button, CI green.
+test('every download URL is an href on a real anchor', () => {
+  const anchors = html.match(/<a\b[^>]*>/g) ?? []
   for (const asset of Object.values(ASSETS)) {
-    assert.ok(html.includes(`${BASE}/${asset}`), `missing static href for ${asset}`)
+    const url = `${BASE}/${asset}`
+    assert.ok(
+      anchors.some((tag) => tag.includes(`href="${url}"`)),
+      `no <a> carries href="${url}" — a URL in a comment or in text is not a download`,
+    )
   }
 })
 

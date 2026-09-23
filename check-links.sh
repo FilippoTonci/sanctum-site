@@ -21,7 +21,11 @@ urls=()
 while IFS= read -r url; do
   urls+=("$url")
 done < <(
-  grep -oE 'https://github\.com/FilippoTonci/sanctum-desktop/releases/latest/download/[A-Za-z0-9._-]+' index.html |
+  # Matches href="URL", not a bare URL: a review showed that grepping for the
+  # URL alone reported "All 3 downloads resolve" against a page whose macOS
+  # anchor had no href, the URL surviving only in an HTML comment.
+  grep -oE 'href="https://github\.com/FilippoTonci/sanctum-desktop/releases/latest/download/[A-Za-z0-9._-]+"' index.html |
+    sed -e 's/^href="//' -e 's/"$//' |
     sort -u
 )
 

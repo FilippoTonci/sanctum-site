@@ -13,14 +13,22 @@ const PATTERNS = [
 ]
 
 // Mobile and tablet platforms. None of the three builds runs on these, so they
-// are unknown rather than wrong. "Linux armv8l" is Android reporting itself
-// through the legacy field, and would otherwise match the Linux pattern and be
-// offered an x86_64 AppImage.
-const HANDHELD = /iphone|ipad|ipod|android|linux arm/i
+// are unknown rather than wrong.
+const HANDHELD = /iphone|ipad|ipod|android/i
+
+// The AppImage and the .deb are both x86_64-only, so a Linux platform string
+// naming any other architecture must not be promoted. This is where Android
+// reporting itself as "Linux armv8l" through the legacy field lands, along
+// with Asahi, Raspberry Pi OS and ARM Chromebooks.
+//
+// A bare "Linux" stays promoted: that is what userAgentData.platform reports
+// on every desktop Linux whatever the CPU, so it is the common case, and the
+// row is labelled x86_64 for the rest.
+const NON_X86_LINUX = /linux\s+(arm|aarch64|riscv|ppc|s390|mips)/i
 
 export function detectOs(platform, { maxTouchPoints = 0 } = {}) {
   if (typeof platform !== 'string' || platform.trim() === '') return 'unknown'
-  if (HANDHELD.test(platform)) return 'unknown'
+  if (HANDHELD.test(platform) || NON_X86_LINUX.test(platform)) return 'unknown'
 
   // iPadOS 13+ reports "MacIntel" and is indistinguishable from a desktop Mac
   // except by touch points. A Mac with a touchscreen does not exist; an iPad
@@ -70,7 +78,7 @@ export function formatVersion(release) {
 // That division is why a failure here costs the visitor a highlight rather
 // than a download.
 
-function applyOs(doc, navigatorLike) {
+export function applyOs(doc, navigatorLike) {
   const os = detectOs(readPlatform(navigatorLike), {
     maxTouchPoints: navigatorLike?.maxTouchPoints ?? 0,
   })
@@ -80,7 +88,7 @@ function applyOs(doc, navigatorLike) {
 // Unauthenticated GitHub API calls are capped at 60/hour per IP. Past that it
 // returns 403 with a JSON body that has no tag_name. Every failure path here
 // ends the same way: the element stays hidden and nothing else is touched.
-async function applyVersion(doc, fetchImpl) {
+export async function applyVersion(doc, fetchImpl) {
   const el = doc.getElementById('version')
   if (!el) return
   const response = await fetchImpl(RELEASES_API, {

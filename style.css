@@ -182,14 +182,21 @@ a.dl:hover {
 }
 
 .dl-unavailable .dl {
-  opacity: 0.55;
+  /* Not opacity: it composited this text to 2.18:1, below even the 3:1
+     large-text floor — and it is the only thing telling a Windows visitor why
+     there is no button. --ink-muted on --paper-elevated is 4.84:1. */
+  color: var(--ink-muted);
+  background: var(--paper-elevated);
+  border-style: dashed;
   cursor: not-allowed;
 }
 
 .version {
   margin: 1rem 0 0;
   font-size: 0.875rem;
-  color: var(--ink-muted);
+  /* --ink-soft, not --ink-muted: this sits on --paper, where --ink-muted is
+     4.44:1 and misses AA. On --paper-elevated it would be fine. */
+  color: var(--ink-soft);
   text-align: center;
 }
 
@@ -244,11 +251,20 @@ body[data-os='linux'] .instructions[data-for='linux'] {
 }
 
 /* Non-matching instructions stay on the page — a tester may be downloading for
-   a different machine — but recede. */
-body[data-os='mac'] .instructions:not([data-for='mac']),
-body[data-os='linux'] .instructions:not([data-for='linux']),
-body[data-os='windows'] .instructions:not([data-for='windows']) {
-  opacity: 0.6;
+   a different machine — and stay fully legible. The visitor's own platform is
+   pulled forward instead of the others being pushed back, because dimming by
+   opacity put this copy at 3.42:1. Emphasis costs nothing; legibility did. */
+body[data-os='mac'] .instructions[data-for='mac'],
+body[data-os='linux'] .instructions[data-for='linux'],
+body[data-os='windows'] .instructions[data-for='windows'] {
+  border-left: 3px solid var(--oxblood);
+  padding-left: 1rem;
+}
+
+body[data-os='mac'] .instructions[data-for='mac'] p,
+body[data-os='linux'] .instructions[data-for='linux'] p,
+body[data-os='windows'] .instructions[data-for='windows'] p {
+  color: var(--ink);
 }
 
 .first-run {
