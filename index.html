@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sanctum Desktop — Download</title>
+    <meta
+      name="description"
+      content="Drag in a document. Review the detections. Export a clean copy. All on your machine."
+    />
+    <link rel="icon" href="assets/sanctum-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="os.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <header class="masthead">
+        <img class="logo" src="assets/sanctum-logo.png" alt="" width="160" />
+        <h1>Sanctum Desktop</h1>
+        <p class="tagline">
+          Drag in a document. Review the detections. Export a clean copy. All on
+          your machine.
+        </p>
+      </header>
+
+      <aside class="notice" role="note">
+        <h2>These builds are unsigned</h2>
+        <p>
+          Sanctum Desktop is pre-alpha and not yet code-signed or notarized.
+          Your operating system will object the first time you open it — that is
+          expected, and the instructions below get you past it. These builds are
+          for developers and testers, not for handling real confidential
+          documents yet.
+        </p>
+      </aside>
+
+      <section id="download">
+        <h2>Download</h2>
+
+        <ul class="downloads">
+          <li class="dl-item" data-for="mac">
+            <a
+              class="dl"
+              data-platform="mac"
+              href="https://github.com/FilippoTonci/sanctum-desktop/releases/latest/download/Sanctum-Desktop-arm64.dmg"
+            >
+              <span class="dl-os">macOS</span>
+              <span class="dl-meta">Apple Silicon · .dmg</span>
+            </a>
+          </li>
+
+          <li class="dl-item" data-for="linux">
+            <a
+              class="dl"
+              data-platform="linux"
+              href="https://github.com/FilippoTonci/sanctum-desktop/releases/latest/download/Sanctum-Desktop-x86_64.AppImage"
+            >
+              <span class="dl-os">Linux</span>
+              <span class="dl-meta">x86_64 · AppImage</span>
+            </a>
+          </li>
+
+          <li class="dl-item" data-for="linux">
+            <a
+              class="dl"
+              data-platform="linux"
+              href="https://github.com/FilippoTonci/sanctum-desktop/releases/latest/download/sanctum-desktop-amd64.deb"
+            >
+              <span class="dl-os">Debian / Ubuntu</span>
+              <span class="dl-meta">amd64 · .deb</span>
+            </a>
+          </li>
+
+          <li class="dl-item dl-unavailable" data-for="windows">
+            <span class="dl">
+              <span class="dl-os">Windows</span>
+              <span class="dl-meta">Not available yet</span>
+            </span>
+          </li>
+        </ul>
+
+        <p id="version" class="version" hidden></p>
+      </section>
+
+      <section class="first-run">
+        <h2>First run</h2>
+
+        <article class="instructions" data-for="mac">
+          <h3>macOS</h3>
+          <p>
+            macOS will say the app is damaged or cannot be verified. It is not
+            damaged — it is unsigned, and the download carries a quarantine
+            flag. Drag the app to Applications, then run:
+          </p>
+          <pre><code>xattr -dr com.apple.quarantine "/Applications/Sanctum Desktop.app"</code></pre>
+          <p>Only Apple Silicon Macs are supported. There is no Intel build.</p>
+        </article>
+
+        <article class="instructions" data-for="linux">
+          <h3>Linux</h3>
+          <p>The AppImage needs to be made executable before it will run:</p>
+          <pre><code>chmod +x Sanctum-Desktop-x86_64.AppImage
+./Sanctum-Desktop-x86_64.AppImage</code></pre>
+          <p>
+            If it fails on missing FUSE, install the <code>.deb</code> instead,
+            or extract the AppImage with <code>--appimage-extract</code>.
+          </p>
+        </article>
+
+        <article class="instructions" data-for="windows">
+          <h3>Windows</h3>
+          <p>
+            No Windows build yet — code signing is still being arranged. Without
+            it, SmartScreen blocks the installer outright rather than merely
+            warning about it.
+          </p>
+        </article>
+      </section>
+
+      <section class="reporting">
+        <h2>Something broke</h2>
+        <p>
+          Expected, at this stage — please say so. Open an issue on the
+          <a href="https://github.com/FilippoTonci/sanctum-desktop/issues"
+            >desktop repo</a
+          >
+          with your OS and what you were doing.
+        </p>
+      </section>
+
+      <footer>
+        <a href="https://github.com/FilippoTonci/sanctum-desktop"
+          >sanctum-desktop</a
+        >
+        <a href="https://github.com/FilippoTonci/sanctum">sanctum engine</a>
+        <a href="https://github.com/FilippoTonci/sanctum-desktop/releases"
+          >all releases</a
+        >
+      </footer>
+    </main>
+  </body>
+</html>

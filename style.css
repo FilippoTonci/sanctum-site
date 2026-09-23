@@ -1,0 +1,273 @@
+/* Tokens copied verbatim from sanctum-desktop/src/renderer/src/index.css.
+   If one looks wrong, fix it there and re-copy — the site and the app should
+   not drift apart. */
+:root {
+  color-scheme: light dark;
+
+  --paper: #f3ecdd;
+  --paper-elevated: #fbf6ea;
+  --paper-sunken: #ebe2cf;
+  --ink: #1d1813;
+  --ink-soft: #3c3429;
+  --ink-muted: #766b5b;
+  --hairline: rgba(29, 24, 19, 0.16);
+  --oxblood: #7c2018;
+  --oxblood-hover: #5e160f;
+  --saffron: #a87317;
+  --saffron-soft: rgba(168, 115, 23, 0.16);
+
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Hoefler Text', serif;
+  --font-body: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a1612;
+    --paper-elevated: #221c16;
+    --paper-sunken: #14110d;
+    --ink: #ece2cb;
+    --ink-soft: #c8bca1;
+    --ink-muted: #968a72;
+    --hairline: rgba(236, 226, 203, 0.14);
+    --oxblood: #d96a5d;
+    --oxblood-hover: #e88679;
+    --saffron: #d9a854;
+    --saffron-soft: rgba(217, 168, 84, 0.18);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 44rem;
+  /* 16px side gutter at phone width. */
+  margin: 0 auto;
+  padding: 4rem 1rem 6rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.5rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 0;
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+h3 {
+  font-size: 1.05rem;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+pre {
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  /* Long commands scroll rather than widening the page on a phone. */
+  overflow-x: auto;
+}
+
+a {
+  color: var(--oxblood);
+}
+
+/* ---- Masthead ---- */
+
+.masthead {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.logo {
+  /* Source is 320px wide, so 160 keeps it exactly 2x for retina. */
+  max-width: min(160px, 40vw);
+  height: auto;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  margin: 0.5rem 0 0;
+}
+
+/* ---- Unsigned notice ---- */
+
+.notice {
+  background: var(--saffron-soft);
+  border-left: 3px solid var(--saffron);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.notice h2 {
+  font-size: 1.1rem;
+}
+
+.notice p {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+/* ---- Downloads ---- */
+
+.downloads {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.9rem 1.15rem;
+  background: var(--paper-elevated);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+a.dl:hover {
+  border-color: var(--oxblood);
+}
+
+.dl-os {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.dl-meta {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.dl-unavailable .dl {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.version {
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+/* ---- OS-aware emphasis ----
+   Driven entirely by the data-os attribute that os.js sets on <body>. With no
+   JS the attribute is absent, every selector below misses, and the page renders
+   in document order with all downloads weighted equally — which is a correct
+   page, not a degraded one. */
+
+body[data-os='mac'] .dl-item[data-for='mac'],
+body[data-os='linux'] .dl-item[data-for='linux'] {
+  order: -1;
+}
+
+body[data-os='mac'] .dl-item[data-for='mac'] a.dl,
+body[data-os='linux'] .dl-item[data-for='linux'] a.dl {
+  background: var(--oxblood);
+  border-color: var(--oxblood);
+  color: var(--paper-elevated);
+}
+
+body[data-os='mac'] .dl-item[data-for='mac'] a.dl:hover,
+body[data-os='linux'] .dl-item[data-for='linux'] a.dl:hover {
+  background: var(--oxblood-hover);
+}
+
+body[data-os='mac'] .dl-item[data-for='mac'] .dl-meta,
+body[data-os='linux'] .dl-item[data-for='linux'] .dl-meta {
+  color: var(--paper-sunken);
+}
+
+/* ---- First-run instructions ---- */
+
+.first-run,
+.reporting {
+  margin-top: 3rem;
+}
+
+.instructions {
+  border-top: 1px solid var(--hairline);
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.instructions p {
+  color: var(--ink-soft);
+}
+
+body[data-os='mac'] .instructions[data-for='mac'],
+body[data-os='linux'] .instructions[data-for='linux'] {
+  order: -1;
+}
+
+/* Non-matching instructions stay on the page — a tester may be downloading for
+   a different machine — but recede. */
+body[data-os='mac'] .instructions:not([data-for='mac']),
+body[data-os='linux'] .instructions:not([data-for='linux']),
+body[data-os='windows'] .instructions:not([data-for='windows']) {
+  opacity: 0.6;
+}
+
+.first-run {
+  display: flex;
+  flex-direction: column;
+}
+
+.first-run > h2 {
+  order: -2;
+}
+
+/* ---- Footer ---- */
+
+footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.875rem;
+}
