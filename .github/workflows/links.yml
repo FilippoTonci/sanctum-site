@@ -1,0 +1,26 @@
+name: Links
+
+# The push trigger catches a mistake made here. The schedule catches one made
+# in sanctum-desktop — a renamed release asset breaks every download on this
+# page without a single commit landing in this repo. That is the run that
+# matters, and it is why this is a separate workflow from pages.yml: a deploy
+# has no business running on a timer.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Unit tests
+        run: node --test
+      - name: Download links resolve
+        run: bash check-links.sh
