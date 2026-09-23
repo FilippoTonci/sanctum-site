@@ -48,3 +48,28 @@ test('returns unknown for junk, empty, and missing input', () => {
     assert.equal(detectOs(p), 'unknown')
   }
 })
+
+import { readPlatform } from './os.js'
+
+test('prefers userAgentData.platform when present', () => {
+  const nav = { userAgentData: { platform: 'macOS' }, platform: 'MacIntel' }
+  assert.equal(readPlatform(nav), 'macOS')
+})
+
+test('falls back to navigator.platform', () => {
+  assert.equal(readPlatform({ platform: 'Win32' }), 'Win32')
+})
+
+// Review Focus 4: a navigator missing both fields must not throw. A thrown
+// module-level error would abort the script, and anything it was going to do
+// later would silently not happen.
+test('survives a navigator with neither field', () => {
+  assert.equal(readPlatform({}), '')
+  assert.equal(readPlatform(undefined), '')
+})
+
+// Review Focus 5 at the wiring level: an unknown platform must still produce a
+// usable attribute value rather than "undefined".
+test('an unrecognised navigator resolves to the unknown bucket', () => {
+  assert.equal(detectOs(readPlatform({ platform: 'FreeBSD' })), 'unknown')
+})

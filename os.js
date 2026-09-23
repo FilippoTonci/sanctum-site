@@ -32,3 +32,35 @@ export function detectOs(platform, { maxTouchPoints = 0 } = {}) {
   }
   return 'unknown'
 }
+
+export function readPlatform(navigatorLike) {
+  if (!navigatorLike || typeof navigatorLike !== 'object') return ''
+  const modern = navigatorLike.userAgentData?.platform
+  if (typeof modern === 'string' && modern !== '') return modern
+  const legacy = navigatorLike.platform
+  return typeof legacy === 'string' ? legacy : ''
+}
+
+// --- Wiring -----------------------------------------------------------------
+// Everything above is pure and tested. Everything below touches the document
+// and runs only in a browser.
+//
+// This sets one attribute. It does not create elements, and it does not touch
+// a single href — CSS does all the reordering and emphasis from `data-os`.
+// That division is why a failure here costs the visitor a highlight rather
+// than a download.
+
+function applyOs(doc, navigatorLike) {
+  const os = detectOs(readPlatform(navigatorLike), {
+    maxTouchPoints: navigatorLike?.maxTouchPoints ?? 0,
+  })
+  if (os !== 'unknown') doc.body.dataset.os = os
+}
+
+if (typeof document !== 'undefined') {
+  try {
+    applyOs(document, navigator)
+  } catch {
+    // Leaves the page in its no-JS state, which is fully functional.
+  }
+}
