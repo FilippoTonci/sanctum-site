@@ -41,6 +41,26 @@ export function readPlatform(navigatorLike) {
   return typeof legacy === 'string' ? legacy : ''
 }
 
+const RELEASES_API =
+  'https://api.github.com/repos/FilippoTonci/sanctum-desktop/releases/latest'
+
+// The permalink filenames deliberately carry no version, so this line is the
+// only way a tester can tell which build they just downloaded.
+export function formatVersion(release) {
+  const tag = release?.tag_name
+  if (typeof tag !== 'string' || tag === '') return null
+
+  const published = new Date(release?.published_at ?? NaN)
+  if (Number.isNaN(published.getTime())) return tag
+
+  const when = published.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+  return `${tag} · released ${when}`
+}
+
 // --- Wiring -----------------------------------------------------------------
 // Everything above is pure and tested. Everything below touches the document
 // and runs only in a browser.
@@ -57,10 +77,31 @@ function applyOs(doc, navigatorLike) {
   if (os !== 'unknown') doc.body.dataset.os = os
 }
 
+// Unauthenticated GitHub API calls are capped at 60/hour per IP. Past that it
+// returns 403 with a JSON body that has no tag_name. Every failure path here
+// ends the same way: the element stays hidden and nothing else is touched.
+async function applyVersion(doc, fetchImpl) {
+  const el = doc.getElementById('version')
+  if (!el) return
+  const response = await fetchImpl(RELEASES_API, {
+    headers: { Accept: 'application/vnd.github+json' },
+  })
+  if (!response.ok) return
+  const line = formatVersion(await response.json())
+  if (line === null) return
+  el.textContent = line
+  el.hidden = false
+}
+
 if (typeof document !== 'undefined') {
   try {
     applyOs(document, navigator)
   } catch {
     // Leaves the page in its no-JS state, which is fully functional.
   }
+  // Deliberately not awaited: the version line is the last thing that matters
+  // on this page, and a hung request must not delay anything.
+  applyVersion(document, fetch).catch(() => {
+    // Rate-limited, offline, or blocked. The line stays hidden.
+  })
 }
