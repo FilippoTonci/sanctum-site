@@ -9,13 +9,23 @@
       content="Drag in a document. Review the detections. Export a clean copy. All on your machine."
     />
     <link rel="icon" href="assets/sanctum-logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="style.css" />
+    <!-- The two faces that render above the fold; the mono face is only used
+         further down, in the xattr command. -->
+    <link
+      rel="preload"
+      href="assets/fonts/fraunces-400-600.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/ibm-plex-sans-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <script type="module" src="os.js"></script>
   </head>
 

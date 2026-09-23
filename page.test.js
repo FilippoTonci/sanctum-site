@@ -65,3 +65,17 @@ test('declares a language and a viewport', () => {
   assert.match(html, /<html[^>]+lang="en"/)
   assert.match(html, /name="viewport"/)
 })
+
+// Decided during the fix pass: no third-party requests. This page's pitch is
+// "All on your machine" for a tool whose audience cares about exactly that,
+// and Google Fonts transmits every visitor's IP to Google. Self-hosting also
+// removes a render-blocking cross-origin dependency.
+test('the page makes no third-party requests', () => {
+  const external = html.match(/(?:href|src)="(https?:)?\/\/[^"]+"/g) ?? []
+  const offsite = external.filter((a) => !a.includes('github.com'))
+  assert.deepEqual(
+    offsite,
+    [],
+    'every asset must be first-party; only github.com links (downloads, repos) may be external',
+  )
+})

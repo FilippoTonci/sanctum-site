@@ -90,3 +90,27 @@ test('first-run instructions are never dimmed by opacity', () => {
     'a tester reading another platform’s instructions still needs to read them',
   )
 })
+
+// Review finding (deferred, then decided): flexbox `order` made visual order
+// diverge from DOM order for Linux visitors, so the first Tab press landed on
+// the macOS .dmg and a screen reader read the macOS instructions first
+// (WCAG 1.3.2 / 2.4.3). Emphasis by colour identifies the visitor's platform
+// without reordering anything.
+test('no rule reorders content away from DOM order', () => {
+  const declarations = css.replace(/\/\*[\s\S]*?\*\//g, '')
+  // Boundary matters: "border:" contains "order:".
+  assert.doesNotMatch(
+    declarations,
+    /[;{\s]order:\s*-?\d/,
+    'reordering makes tab and screen-reader order disagree with what is seen',
+  )
+})
+
+test('fonts are served from this origin', () => {
+  assert.match(css, /@font-face/, 'fonts must be declared locally')
+  const srcs = css.match(/src:\s*url\(([^)]+)\)/g) ?? []
+  assert.ok(srcs.length > 0, 'no @font-face src found')
+  for (const src of srcs) {
+    assert.doesNotMatch(src, /^https?:|\/\//, `third-party font source: ${src}`)
+  }
+})

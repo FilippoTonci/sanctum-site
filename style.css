@@ -1,3 +1,35 @@
+/* Self-hosted so the page makes no third-party request. This page's pitch is
+   "All on your machine" for a tool whose users care about exactly that, and
+   Google Fonts transmits every visitor's IP to Google. Only the `latin` subset
+   is included; licences in assets/fonts/OFL.txt.
+
+   Fraunces is the variable file, which is what makes the 'SOFT' and 'WONK'
+   axes in --fraunces-display below actually do something — served from Google
+   without those axes requested, they were inert. */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('assets/fonts/fraunces-400-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-sans-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/jetbrains-mono-400.woff2') format('woff2');
+}
+
 /* Tokens copied verbatim from sanctum-desktop/src/renderer/src/index.css.
    If one looks wrong, fix it there and re-copy — the site and the app should
    not drift apart. */
@@ -204,12 +236,12 @@ a.dl:hover {
    Driven entirely by the data-os attribute that os.js sets on <body>. With no
    JS the attribute is absent, every selector below misses, and the page renders
    in document order with all downloads weighted equally — which is a correct
-   page, not a degraded one. */
+   page, not a degraded one.
 
-body[data-os='mac'] .dl-item[data-for='mac'],
-body[data-os='linux'] .dl-item[data-for='linux'] {
-  order: -1;
-}
+   Emphasis only, never reordering. Moving a row with `order` left tab order
+   and screen-reader order disagreeing with what a Linux visitor saw: the first
+   Tab press landed on the macOS .dmg (WCAG 1.3.2 / 2.4.3). Colour identifies
+   the visitor's platform in a four-row list just as fast. */
 
 body[data-os='mac'] .dl-item[data-for='mac'] a.dl,
 body[data-os='linux'] .dl-item[data-for='linux'] a.dl {
@@ -245,11 +277,6 @@ body[data-os='linux'] .dl-item[data-for='linux'] .dl-meta {
   color: var(--ink-soft);
 }
 
-body[data-os='mac'] .instructions[data-for='mac'],
-body[data-os='linux'] .instructions[data-for='linux'] {
-  order: -1;
-}
-
 /* Non-matching instructions stay on the page — a tester may be downloading for
    a different machine — and stay fully legible. The visitor's own platform is
    pulled forward instead of the others being pushed back, because dimming by
@@ -265,15 +292,6 @@ body[data-os='mac'] .instructions[data-for='mac'] p,
 body[data-os='linux'] .instructions[data-for='linux'] p,
 body[data-os='windows'] .instructions[data-for='windows'] p {
   color: var(--ink);
-}
-
-.first-run {
-  display: flex;
-  flex-direction: column;
-}
-
-.first-run > h2 {
-  order: -2;
 }
 
 /* ---- Footer ---- */
