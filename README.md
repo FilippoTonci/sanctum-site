@@ -23,15 +23,18 @@ site/                 the published root — nothing else reaches the web
     main.js           the browser entry point — the only file with side effects
   assets/             logo, fonts, font licences
 tests/                one file per module
-docs/                 spec and implementation plan
 check-links.sh
 ```
 
 `site/` is a boundary, not a preference: `pages.yml` uploads only that
-directory, so docs, tests and CI config cannot be published by accident.
-Publishing the whole checkout once put an implementation plan — absolute local
-paths included — on the public web. `tests/structure.test.js` asserts the
-boundary holds.
+directory, so tests and CI config cannot be published by accident. Publishing
+the whole checkout once put an implementation plan — absolute local paths
+included — on the public web. `tests/structure.test.js` asserts the boundary
+holds.
+
+The spec and implementation plan for this site live with the Sanctum project
+plan, not here — see `plans/phase-3-desktop-ui.md` in the
+[sanctum](https://github.com/FilippoTonci/sanctum) repo, WS6 substep 9.
 
 Adding a section later means a new stylesheet, a new `<link>`, and a new
 `<section>`. No existing file's internals change.
