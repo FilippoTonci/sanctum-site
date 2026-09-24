@@ -115,7 +115,22 @@
             damaged — it is unsigned, and the download carries a quarantine
             flag. Drag the app to Applications, then run:
           </p>
-          <pre><code>xattr -dr com.apple.quarantine "/Applications/Sanctum Desktop.app"</code></pre>
+          <pre><code>xattr -d com.apple.quarantine "/Applications/Sanctum Desktop.app"</code></pre>
+          <p>
+            Note there is no <code>-r</code>. On macOS&nbsp;15 and later the
+            recursive form fails with <em>Operation not permitted</em> on every
+            file inside the bundle, because App Management protects the contents
+            of an installed app. The flag on the bundle itself is the only one
+            Gatekeeper reads, so the single <code>-d</code> is both sufficient
+            and the only form that works.
+          </p>
+          <p>
+            Prefer not to use a terminal? Double-click the app, let macOS refuse
+            it, then open
+            <strong>System Settings → Privacy &amp; Security</strong>, scroll to
+            the message about Sanctum Desktop and choose
+            <strong>Open Anyway</strong>.
+          </p>
           <p>Only Apple Silicon Macs are supported. There is no Intel build.</p>
         </article>
 

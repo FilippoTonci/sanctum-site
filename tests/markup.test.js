@@ -52,7 +52,13 @@ test('Windows is shown as unavailable and is not a link', () => {
 
 test('the unsigned warning and the unblock command are both present', () => {
   assert.match(html, /unsigned/i)
-  assert.match(html, /xattr -dr com\.apple\.quarantine/)
+  // Not -dr. The recursive form fails on macOS 15+ with "Operation not
+  // permitted" on every file inside the bundle: App Management protects the
+  // contents of an installed app, and Terminal has no such entitlement.
+  // Verified on macOS 26.6.2 — the non-recursive form succeeds, and the
+  // top-level flag is the only one Gatekeeper reads.
+  assert.match(html, /xattr -d com\.apple\.quarantine/)
+  assert.doesNotMatch(html, /xattr -dr/, '-r fails on macOS 15 and later')
 })
 
 test('the version line exists and starts hidden', () => {
