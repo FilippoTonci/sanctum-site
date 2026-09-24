@@ -1,0 +1,79 @@
+/* Fonts and design tokens. Everything else depends on this file, so it is
+   linked first. */
+
+/* Self-hosted so the page makes no third-party request. This page's pitch is
+   "All on your machine" for a tool whose users care about exactly that, and
+   Google Fonts transmits every visitor's IP to Google. Only the `latin` subset
+   is included; licences in assets/fonts/OFL.txt.
+
+   Paths are ../assets because url() in CSS resolves against the stylesheet,
+   not the document — 'assets/...' from here would mean site/styles/assets/...
+
+   Fraunces is the variable file, which is what makes the 'SOFT' and 'WONK'
+   axes in --fraunces-display below actually do something — served from Google
+   without those axes requested, they were inert. */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../assets/fonts/fraunces-400-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/ibm-plex-sans-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/jetbrains-mono-400.woff2') format('woff2');
+}
+
+/* Tokens copied verbatim from sanctum-desktop/src/renderer/src/index.css.
+   If one looks wrong, fix it there and re-copy — the site and the app should
+   not drift apart. */
+:root {
+  color-scheme: light dark;
+
+  --paper: #f3ecdd;
+  --paper-elevated: #fbf6ea;
+  --paper-sunken: #ebe2cf;
+  --ink: #1d1813;
+  --ink-soft: #3c3429;
+  --ink-muted: #766b5b;
+  --hairline: rgba(29, 24, 19, 0.16);
+  --oxblood: #7c2018;
+  --oxblood-hover: #5e160f;
+  --saffron: #a87317;
+  --saffron-soft: rgba(168, 115, 23, 0.16);
+
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Hoefler Text', serif;
+  --font-body: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a1612;
+    --paper-elevated: #221c16;
+    --paper-sunken: #14110d;
+    --ink: #ece2cb;
+    --ink-soft: #c8bca1;
+    --ink-muted: #968a72;
+    --hairline: rgba(236, 226, 203, 0.14);
+    --oxblood: #d96a5d;
+    --oxblood-hover: #e88679;
+    --saffron: #d9a854;
+    --saffron-soft: rgba(217, 168, 84, 0.18);
+  }
+}

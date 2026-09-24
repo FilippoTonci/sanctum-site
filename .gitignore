@@ -1,6 +1,2 @@
 .DS_Store
 .playwright-mcp/
-
-# Design docs live with the project plan, not in the served site. Publishing
-# them put local absolute paths on the public web.
-docs/

@@ -1,0 +1,64 @@
+/* Reset, page container, and the element defaults every section inherits. */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 44rem;
+  /* 16px side gutter at phone width. */
+  margin: 0 auto;
+  padding: 4rem 1rem 6rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.5rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 0;
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+h3 {
+  font-size: 1.05rem;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+pre {
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  /* Long commands scroll rather than widening the page on a phone. */
+  overflow-x: auto;
+}
+
+a {
+  color: var(--oxblood);
+}

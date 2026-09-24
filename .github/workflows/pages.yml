@@ -24,10 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      # No build step, so the repo is the artifact. docs/ and README.md ship
-      # with it; both are already public, so this costs nothing but tidiness.
+      # Only site/ is served. Publishing the whole checkout once put an
+      # implementation plan, absolute local paths and all, on the public web;
+      # this makes everything outside site/ unpublishable rather than relying
+      # on remembering. tests/structure.test.js asserts it.
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: site
       - id: deployment
         uses: actions/deploy-pages@v4

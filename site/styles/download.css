@@ -1,0 +1,89 @@
+/* The download block — the functional core of the page — and the OS-aware
+   emphasis driven by the data-os attribute that js/enhance.js sets. */
+
+/* ---- Downloads ---- */
+
+.downloads {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.9rem 1.15rem;
+  background: var(--paper-elevated);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+a.dl:hover {
+  border-color: var(--oxblood);
+}
+
+.dl-os {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.dl-meta {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.dl-unavailable .dl {
+  /* Not opacity: it composited this text to 2.18:1, below even the 3:1
+     large-text floor — and it is the only thing telling a Windows visitor why
+     there is no button. --ink-muted on --paper-elevated is 4.84:1. */
+  color: var(--ink-muted);
+  background: var(--paper-elevated);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+.version {
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+  /* --ink-soft, not --ink-muted: this sits on --paper, where --ink-muted is
+     4.44:1 and misses AA. On --paper-elevated it would be fine. */
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* ---- OS-aware emphasis ----
+   Driven entirely by the data-os attribute that os.js sets on <body>. With no
+   JS the attribute is absent, every selector below misses, and the page renders
+   in document order with all downloads weighted equally — which is a correct
+   page, not a degraded one.
+
+   Emphasis only, never reordering. Moving a row with `order` left tab order
+   and screen-reader order disagreeing with what a Linux visitor saw: the first
+   Tab press landed on the macOS .dmg (WCAG 1.3.2 / 2.4.3). Colour identifies
+   the visitor's platform in a four-row list just as fast. */
+
+body[data-os='mac'] .dl-item[data-for='mac'] a.dl,
+body[data-os='linux'] .dl-item[data-for='linux'] a.dl {
+  background: var(--oxblood);
+  border-color: var(--oxblood);
+  color: var(--paper-elevated);
+}
+
+body[data-os='mac'] .dl-item[data-for='mac'] a.dl:hover,
+body[data-os='linux'] .dl-item[data-for='linux'] a.dl:hover {
+  background: var(--oxblood-hover);
+}
+
+body[data-os='mac'] .dl-item[data-for='mac'] .dl-meta,
+body[data-os='linux'] .dl-item[data-for='linux'] .dl-meta {
+  color: var(--paper-sunken);
+}
