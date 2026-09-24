@@ -1,2 +1,5 @@
 .DS_Store
 .playwright-mcp/
+
+# Design docs are not part of this repo.
+docs/
