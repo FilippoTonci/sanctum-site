@@ -1,8 +1,6 @@
 The fonts in this directory are used under the SIL Open Font License 1.1.
 Only the `latin` subset of each is included.
 
-  Fraunces        Copyright 2020 The Fraunces Project Authors
-                  https://github.com/undercasetype/Fraunces
   IBM Plex Sans   Copyright 2017 IBM Corp.
                   https://github.com/IBM/plex
   JetBrains Mono  Copyright 2020 The JetBrains Mono Project Authors

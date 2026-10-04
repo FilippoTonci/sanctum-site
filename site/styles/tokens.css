@@ -2,30 +2,27 @@
    linked first. */
 
 /* Self-hosted so the page makes no third-party request. This page's pitch is
-   "All on your machine" for a tool whose users care about exactly that, and
-   Google Fonts transmits every visitor's IP to Google. Only the `latin` subset
-   is included; licences in assets/fonts/OFL.txt.
+   "nothing leaves your computer" for a tool whose users care about exactly
+   that, and Google Fonts transmits every visitor's IP to Google. Only the
+   `latin` subset is included; licences in assets/fonts/OFL.txt. The files are
+   the app's own, from @fontsource in sanctum-desktop.
 
    Paths are ../assets because url() in CSS resolves against the stylesheet,
-   not the document — 'assets/...' from here would mean site/styles/assets/...
-
-   Fraunces is the variable file, which is what makes the 'SOFT' and 'WONK'
-   axes in --fraunces-display below actually do something — served from Google
-   without those axes requested, they were inert. */
-@font-face {
-  font-family: 'Fraunces';
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url('../assets/fonts/fraunces-400-600.woff2') format('woff2');
-}
-
+   not the document — 'assets/...' from here would mean site/styles/assets/... */
 @font-face {
   font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url('../assets/fonts/ibm-plex-sans-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/ibm-plex-sans-600.woff2') format('woff2');
 }
 
 @font-face {
@@ -36,44 +33,82 @@
   src: url('../assets/fonts/jetbrains-mono-400.woff2') format('woff2');
 }
 
-/* Tokens copied verbatim from sanctum-desktop/src/renderer/src/index.css.
+/* The "Studio" tokens, copied from sanctum-desktop/src/renderer/src/index.css.
    If one looks wrong, fix it there and re-copy — the site and the app should
-   not drift apart. */
+   not drift apart. --text-3 is the one addition the app does not need: the
+   app's #8b8b91 misses AA on --bg, so the site darkens it. */
 :root {
   color-scheme: light dark;
 
-  --paper: #f3ecdd;
-  --paper-elevated: #fbf6ea;
-  --paper-sunken: #ebe2cf;
-  --ink: #1d1813;
-  --ink-soft: #3c3429;
-  --ink-muted: #766b5b;
-  --hairline: rgba(29, 24, 19, 0.16);
-  --oxblood: #7c2018;
-  --oxblood-hover: #5e160f;
-  --saffron: #a87317;
-  --saffron-soft: rgba(168, 115, 23, 0.16);
+  --bg: #f5f5f4;
+  --surface: #ffffff;
+  --surface-2: #efefee;
+  --surface-3: #e7e7e5;
+  --canvas: #e9e9e7;
+  --border: #e3e3e1;
+  --border-strong: #cfcfcc;
+  --text: #17171a;
+  --text-2: #5b5b61;
+  --text-3: #6b6b71;
 
-  --font-display: 'Fraunces', 'Iowan Old Style', 'Hoefler Text', serif;
-  --font-body: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  --accent: #3451d1;
+  --accent-hover: #2a44b8;
+  --accent-fg: #ffffff;
+  --accent-soft: rgba(52, 81, 209, 0.1);
+  --accent-ring: rgba(52, 81, 209, 0.45);
+
+  --pending: #b7791f;
+  --pending-soft: rgba(247, 190, 60, 0.28);
+  --redacted: #23875a;
+  --redacted-soft: rgba(35, 135, 90, 0.12);
+
+  --token-bg: #1b1b1f;
+  --token-fg: #ffffff;
+  --band: #17171a;
+  --band-text: #ececee;
+  --band-text-2: #a0a0a8;
+
+  --shadow-sm: 0 1px 2px rgba(20, 20, 24, 0.06);
+  --shadow-page: 0 1px 2px rgba(20, 20, 24, 0.08), 0 8px 28px -12px rgba(20, 20, 24, 0.22);
+  --shadow-pop: 0 0 0 1px rgba(20, 20, 24, 0.06), 0 24px 64px -16px rgba(20, 20, 24, 0.35);
+
+  --font-ui: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --radius-md: 6px;
-  --radius-lg: 10px;
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-xl: 14px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #1a1612;
-    --paper-elevated: #221c16;
-    --paper-sunken: #14110d;
-    --ink: #ece2cb;
-    --ink-soft: #c8bca1;
-    --ink-muted: #968a72;
-    --hairline: rgba(236, 226, 203, 0.14);
-    --oxblood: #d96a5d;
-    --oxblood-hover: #e88679;
-    --saffron: #d9a854;
-    --saffron-soft: rgba(217, 168, 84, 0.18);
+    --bg: #131315;
+    --surface: #1a1a1d;
+    --surface-2: #232327;
+    --surface-3: #2c2c31;
+    --canvas: #0e0e10;
+    --border: #2a2a2f;
+    --border-strong: #3a3a40;
+    --text: #ececee;
+    --text-2: #a0a0a8;
+    --text-3: #8e8e96;
+    --accent: #7e95ff;
+    --accent-hover: #97aaff;
+    --accent-fg: #0e1233;
+    --accent-soft: rgba(126, 149, 255, 0.16);
+    --accent-ring: rgba(126, 149, 255, 0.55);
+    --pending: #e0a84a;
+    --pending-soft: rgba(247, 190, 60, 0.22);
+    --redacted: #4cc38a;
+    --redacted-soft: rgba(76, 195, 138, 0.14);
+    --token-bg: #ececee;
+    --token-fg: #131315;
+    --band: #0e0e10;
+    --band-text: #ececee;
+    --band-text-2: #a0a0a8;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-page: 0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 40px -12px rgba(0, 0, 0, 0.7);
+    --shadow-pop: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 24px 64px -16px rgba(0, 0, 0, 0.75);
   }
 }

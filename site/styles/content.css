@@ -1,87 +1,446 @@
-/* The prose around the download block: masthead, unsigned notice, first-run
-   instructions, footer. This is the file a front-door section would grow, or
-   sit beside as its own stylesheet. */
+/* Everything between the hero and the download: the trust strip, the three
+   steps and their vignettes, the screenshot tabs, the audience cards, and the
+   footer. */
 
-/* ---- Masthead ---- */
+/* ---- Trust strip ---- */
 
-.masthead {
-  text-align: center;
-  margin-bottom: 3rem;
+.strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
-.logo {
-  /* Source is 320px wide, so 160 keeps it exactly 2x for retina. */
-  max-width: min(160px, 40vw);
-  height: auto;
+.strip-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
 }
 
-.tagline {
-  font-size: 1.1rem;
-  color: var(--ink-soft);
-  margin: 0.5rem 0 0;
-}
-
-/* ---- Unsigned notice ---- */
-
-.notice {
-  background: var(--saffron-soft);
-  border-left: 3px solid var(--saffron);
-  border-radius: var(--radius-md);
-  padding: 1rem 1.25rem;
-  margin-bottom: 3rem;
-}
-
-.notice h2 {
-  font-size: 1.1rem;
-}
-
-.notice p {
+.promises,
+.formats {
+  list-style: none;
   margin: 0;
-  color: var(--ink-soft);
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
 }
 
-/* ---- First-run instructions ---- */
-
-.first-run,
-.reporting {
-  margin-top: 3rem;
+.promises li {
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.instructions {
-  border-top: 1px solid var(--hairline);
-  padding-top: 1.25rem;
-  margin-top: 1.25rem;
+.promises li::before {
+  content: '✓';
+  color: var(--redacted);
+  font-weight: 600;
 }
 
-.instructions p {
-  color: var(--ink-soft);
+.formats {
+  gap: 0.5rem;
 }
 
-/* Non-matching instructions stay on the page — a tester may be downloading for
-   a different machine — and stay fully legible. The visitor's own platform is
-   pulled forward instead of the others being pushed back, because dimming by
-   opacity put this copy at 3.42:1. Emphasis costs nothing; legibility did. */
-body[data-os='mac'] .instructions[data-for='mac'],
-body[data-os='linux'] .instructions[data-for='linux'],
-body[data-os='windows'] .instructions[data-for='windows'] {
-  border-left: 3px solid var(--oxblood);
-  padding-left: 1rem;
+.formats li {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text-2);
 }
 
-body[data-os='mac'] .instructions[data-for='mac'] p,
-body[data-os='linux'] .instructions[data-for='linux'] p,
-body[data-os='windows'] .instructions[data-for='windows'] p {
-  color: var(--ink);
+/* ---- How it works ---- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 56rem) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.step p {
+  color: var(--text-2);
+}
+
+.step-n {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin: 1.5rem 0 0.4rem;
+}
+
+.vignette {
+  height: 16rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  overflow: hidden;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+/* 01 Open */
+
+.drop {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+
+.drop-title {
+  font-weight: 600;
+  margin: 0;
+}
+
+.drop-sub {
+  margin: 0;
+  color: var(--text-2);
+}
+
+.file-chip {
+  position: absolute;
+  top: 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.75rem 0.6rem 0.4rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-sm);
+}
+
+.fc1 { left: calc(50% - 6.2rem); transform: rotate(-8deg); }
+.fc2 { left: calc(50% - 1.9rem); top: 1.1rem; }
+.fc3 { left: calc(50% + 2.6rem); transform: rotate(8deg); }
+
+/* 02 Review: the command palette */
+
+.palette {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-page);
+  overflow: hidden;
+}
+
+.palette-input {
+  display: flex;
+  align-items: center;
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+}
+
+.palette-input kbd {
+  margin-left: auto;
+}
+
+.typed {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.caret {
+  width: 1.5px;
+  height: 1.1em;
+  background: var(--accent);
+  margin-left: 1px;
+}
+
+.palette-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+  color: var(--text-2);
+}
+
+.palette-item b {
+  font-weight: 400;
+  font-family: var(--font-mono);
+  color: var(--text-3);
+}
+
+.palette-item.on {
+  background: var(--accent-soft);
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* 03 Prove: the save-check sheet and the scrubbed list */
+
+.v-prove {
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.sheet {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 0.8rem 0.9rem;
+  box-shadow: var(--shadow-page);
+  background: var(--surface);
+}
+
+.sheet p {
+  margin: 0 0 0.3rem;
+}
+
+.sheet-title {
+  font-weight: 600;
+}
+
+.sheet-row {
+  color: var(--text-2);
+}
+
+.sheet-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+}
+
+.mini-btn {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+}
+
+.mini-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.scrubbed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem 0.75rem;
+  color: var(--text-2);
+  font-size: 0.8rem;
+}
+
+.scrubbed li::before {
+  content: '✓ ';
+  color: var(--redacted);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .file-chip {
+    animation: drop-in 4s ease-in-out infinite;
+  }
+
+  .fc2 { animation-delay: 0.25s; }
+  .fc3 { animation-delay: 0.5s; }
+
+  .typed {
+    animation: type 4s steps(12) infinite;
+  }
+
+  .caret {
+    animation: blink 1s steps(1) infinite;
+  }
+
+  .palette-item.on {
+    animation: pick 4s infinite;
+  }
+
+  .scrubbed li {
+    animation: tick 6s infinite;
+  }
+
+  .scrubbed li:nth-child(2) { animation-delay: 0.3s; }
+  .scrubbed li:nth-child(3) { animation-delay: 0.6s; }
+  .scrubbed li:nth-child(4) { animation-delay: 0.9s; }
+}
+
+@keyframes drop-in {
+  0%, 10% { translate: 0 -0.6rem; opacity: 0.5; }
+  35%, 85% { translate: 0 0.9rem; opacity: 1; }
+  100% { translate: 0 -0.6rem; opacity: 0.5; }
+}
+
+@keyframes type {
+  0% { width: 0; }
+  60%, 100% { width: 12ch; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes pick {
+  0%, 60% { background: transparent; }
+  65%, 100% { background: var(--accent-soft); }
+}
+
+@keyframes tick {
+  0%, 15% { opacity: 0.25; }
+  25%, 100% { opacity: 1; }
+}
+
+/* ---- Screenshots ----
+   Radio buttons and labels: tabs that work with JavaScript off. The inputs
+   are visually hidden but stay focusable, so arrow keys switch tabs. */
+
+.see {
+  background: var(--band);
+  color: var(--band-text);
+}
+
+.see .lede {
+  color: var(--band-text-2);
+}
+
+.see .eyebrow {
+  color: #97aaff;
+}
+
+.shots > input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.shot-tabs {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.shot-tabs label {
+  padding: 0.45rem 1rem;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  color: var(--band-text-2);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+#shot-word:checked ~ .shot-tabs label[for='shot-word'],
+#shot-pptx:checked ~ .shot-tabs label[for='shot-pptx'],
+#shot-pdf:checked ~ .shot-tabs label[for='shot-pdf'] {
+  background: var(--band-text);
+  color: var(--band);
+}
+
+#shot-word:focus-visible ~ .shot-tabs label[for='shot-word'],
+#shot-pptx:focus-visible ~ .shot-tabs label[for='shot-pptx'],
+#shot-pdf:focus-visible ~ .shot-tabs label[for='shot-pdf'] {
+  outline: 2px solid #97aaff;
+  outline-offset: 2px;
+}
+
+.shot {
+  display: none;
+  margin: 0;
+}
+
+#shot-word:checked ~ .shot-word,
+#shot-pptx:checked ~ .shot-pptx,
+#shot-pdf:checked ~ .shot-pdf {
+  display: block;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+}
+
+/* ---- Who it's for ---- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 56rem) {
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+
+.card p {
+  margin: 0;
+  color: var(--text-2);
 }
 
 /* ---- Footer ---- */
 
-footer {
-  margin-top: 4rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--hairline);
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0 3rem;
+  font-size: 0.92rem;
+  color: var(--text-2);
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer nav {
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;
-  font-size: 0.875rem;
 }

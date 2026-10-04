@@ -12,16 +12,20 @@ what is served.
 site/                 the published root — nothing else reaches the web
   index.html
   styles/
-    tokens.css        fonts and design tokens; linked first, everything depends on it
-    base.css          reset, page container, element defaults
-    download.css      the download block and its OS-aware emphasis
-    content.css       masthead, unsigned notice, first-run instructions, footer
+    tokens.css        fonts and the app's "Studio" design tokens; linked first
+    base.css          reset, page container, type, buttons
+    hero.css          nav, hero, and the animated recreation of the app window
+    content.css       trust strip, how it works, screenshots, audience, footer
+    download.css      the download block, its OS-aware emphasis, first run
   js/
     platform.js       maps a platform string to a download   (pure)
     release.js        formats the version line                (pure)
     enhance.js        the two things JS may do to the page    (DOM, deps injected)
     main.js           the browser entry point — the only file with side effects
-  assets/             logo, fonts, font licences
+  assets/
+    emblem.svg        favicon: the app's wordmark glyph
+    shots/            real screenshots of the app, light and dark, WebP
+    fonts/            IBM Plex Sans, JetBrains Mono, and their licence
 tests/                one file per module
 check-links.sh
 ```
@@ -32,12 +36,16 @@ the whole checkout once put an implementation plan — absolute local paths
 included — on the public web. `tests/structure.test.js` asserts the boundary
 holds.
 
-The spec and implementation plan for this site live with the Sanctum project
-plan, not here — see `plans/phase-3-desktop-ui.md` in the
-[sanctum](https://github.com/FilippoTonci/sanctum) repo, WS6 substep 9.
+The design tokens are copied from `sanctum-desktop/src/renderer/src/index.css`
+so the site and the app look the same; fix a token there first, then re-copy.
 
-Adding a section later means a new stylesheet, a new `<link>`, and a new
-`<section>`. No existing file's internals change.
+The screenshots in `assets/shots/` are captures of the real app reviewing
+sample documents (public-domain characters, so nothing real is shown). Retake
+them when the review UI changes visibly: 1800px wide WebP, one light and one
+dark per format, same filenames.
+
+The hero's app window is HTML and CSS, not an image. Its un-animated styles
+are the finished frame, so reduced-motion visitors see the end result.
 
 ## Local preview
 
@@ -49,7 +57,7 @@ python3 -m http.server 8000 --directory site
 ## Tests
 
 ```bash
-node --test          # 41 tests: platform detection, version formatting,
+node --test          # 45 tests: platform detection, version formatting,
                      # the DOM wiring, the markup, the stylesheets, the layout
 bash check-links.sh  # the three download permalinks return 200
 ```

@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from 'node:fs'
 
 // All four stylesheets, concatenated: the assertions below are properties of
 // the stylesheet as a whole, not of whichever file happens to hold a rule.
-const css = ['tokens', 'base', 'download', 'content']
+const css = ['tokens', 'base', 'hero', 'content', 'download']
   .map((name) => readFileSync(new URL(`../site/styles/${name}.css`, import.meta.url), 'utf8'))
   .join('\n')
 
@@ -41,15 +41,20 @@ function rule(selectorFragment) {
   return m[1].replace(/\/\*[\s\S]*?\*\//g, '')
 }
 
-// The pairs the stylesheet actually creates. A review measured the dimmed copy
+// The pairs the stylesheet actually creates. A review once measured dimmed copy
 // at 2.18:1 — below even the 3:1 large-text floor — because `opacity`
 // composites text toward its background. The tokens are fine; the mechanism
 // was not.
 const USED_PAIRS = [
-  ['ink', 'paper'],
-  ['ink', 'paper-elevated'],
-  ['ink-soft', 'paper'],
-  ['ink-muted', 'paper-elevated'],
+  ['text', 'bg'],
+  ['text', 'surface'],
+  ['text-2', 'bg'],
+  ['text-2', 'surface'],
+  ['text-3', 'surface'],
+  ['accent-fg', 'accent'],
+  ['accent', 'bg'],
+  ['band-text', 'band'],
+  ['band-text-2', 'band'],
 ]
 
 test('every text/surface pair the stylesheet uses meets WCAG AA', () => {
@@ -64,17 +69,12 @@ test('every text/surface pair the stylesheet uses meets WCAG AA', () => {
   }
 })
 
-// Encodes why --ink-muted may not be used on the page background: it misses AA
-// there by a hair in light mode. Without this, a future edit reintroduces it
-// and nothing objects.
-test('--ink-muted is unusable on the page background, which is why nothing uses it there', () => {
-  const ratio = contrast(token('ink-muted', 'light'), token('paper', 'light'))
-  assert.ok(ratio < 4.5, 'if this now passes, the restriction below can be relaxed')
-  assert.doesNotMatch(
-    rule('\\.version'),
-    /--ink-muted/,
-    '.version sits on --paper, where --ink-muted fails AA',
-  )
+// The app's --text-3 (#8b8b91) misses AA on the page background, which is why
+// the site carries a darker one. Re-copying the app's value must not slip
+// through unnoticed.
+test('--text-3 is darker than the app value, so it passes on the page background', () => {
+  const ratio = contrast(token('text-3', 'light'), token('bg', 'light'))
+  assert.ok(ratio >= 4.5, `--text-3 on --bg is ${ratio.toFixed(2)}:1`)
 })
 
 test('the unavailable download row recedes by colour, not opacity', () => {
@@ -137,3 +137,25 @@ test('every @font-face src resolves to a file that exists', () => {
     )
   }
 })
+
+// The base styles are the finished frame; motion is opt-in. An animation
+// declared outside the no-preference block would run for people who asked
+// their system for reduced motion.
+test('every animation runs only when the visitor allows motion', () => {
+  const declarations = css.replace(/\/\*[\s\S]*?\*\//g, '')
+  const outside = declarations
+    .split('@media (prefers-reduced-motion: no-preference)')
+    .map((chunk, i) => (i === 0 ? chunk : chunk.slice(matchingBrace(chunk))))
+    .join('\n')
+  assert.doesNotMatch(outside, /[{;\s]animation:/, 'animation declared outside the motion query')
+})
+
+/** Index just past the brace that closes the @media block a chunk starts in. */
+function matchingBrace(chunk) {
+  let depth = 0
+  for (let i = 0; i < chunk.length; i++) {
+    if (chunk[i] === '{') depth++
+    if (chunk[i] === '}' && --depth === 0) return i + 1
+  }
+  return chunk.length
+}

@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 
 const html = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8')
 
@@ -84,4 +84,26 @@ test('the page makes no third-party requests', () => {
     [],
     'every asset must be first-party; only github.com links (downloads, repos) may be external',
   )
+})
+
+// The screenshots are committed images; a typo in a path renders a broken
+// image in the middle of the page and nothing else would notice.
+test('every image and source the page references exists', () => {
+  const refs = [...html.matchAll(/(?:src|srcset)="([^"]+)"/g)]
+    .map((m) => m[1])
+    .filter((r) => !r.startsWith('http') && !r.endsWith('.js'))
+  assert.ok(refs.length >= 6, `expected six screenshots, found ${refs.length}`)
+  for (const ref of refs) {
+    assert.ok(existsSync(new URL(`../site/${ref}`, import.meta.url)), `${ref} does not exist`)
+  }
+})
+
+// The hero's one-click download is shown per OS by CSS. Without JS only the
+// generic button shows, so it must lead somewhere useful.
+test('the hero download works with and without JavaScript', () => {
+  const hero = html.match(/<div class="hero-actions">[\s\S]*?<\/div>/)
+  assert.ok(hero, 'no hero actions')
+  assert.match(hero[0], /data-hero="any"\s+href="#download"/)
+  assert.ok(hero[0].includes(`href="${BASE}/${ASSETS.mac}"`), 'hero mac button has no real href')
+  assert.ok(hero[0].includes(`href="${BASE}/${ASSETS.linux}"`), 'hero linux button has no real href')
 })
