@@ -156,3 +156,34 @@ body[data-os='linux'] .instructions[data-for='linux'] p,
 body[data-os='windows'] .instructions[data-for='windows'] p {
   color: var(--text);
 }
+
+/* Step-by-step instructions, written for people who have never opened
+   Terminal. */
+.howto {
+  margin: 0 0 1rem;
+  padding-left: 1.4rem;
+  color: var(--text-2);
+  font-size: 0.95rem;
+}
+
+.howto li {
+  margin-bottom: 0.6rem;
+  padding-left: 0.2rem;
+}
+
+.howto pre {
+  margin: 0.5rem 0;
+}
+
+/* One click selects the whole command, so nobody has to drag-select a long
+   line and miss the closing quote. */
+.select-all,
+.select-all code {
+  user-select: all;
+  -webkit-user-select: all;
+  cursor: text;
+}
+
+body[data-os='mac'] .instructions[data-for='mac'] .howto {
+  color: var(--text);
+}

@@ -375,16 +375,40 @@
             <article class="instructions" data-for="mac">
               <h4>macOS</h4>
               <p>
-                Drag Sanctum to Applications. macOS will say it is damaged or
-                can't be verified. It isn't, it's unsigned. Run:
+                macOS may say Sanctum "is damaged and can't be opened". It isn't
+                damaged, it just isn't signed by Apple yet. Two minutes, once:
               </p>
-              <pre><code>xattr -d com.apple.quarantine "/Applications/Sanctum Desktop.app"</code></pre>
+              <ol class="howto">
+                <li>
+                  Open the downloaded <code>.dmg</code> and drag
+                  <strong>Sanctum Desktop</strong> into the
+                  <strong>Applications</strong> folder.
+                </li>
+                <li>
+                  Open Terminal: press <kbd>⌘</kbd> <kbd>Space</kbd>, type
+                  <strong>Terminal</strong> and press <kbd>Return</kbd>.
+                </li>
+                <li>
+                  Click the line below to select it, copy it with
+                  <kbd>⌘</kbd> <kbd>C</kbd>, paste it into Terminal with
+                  <kbd>⌘</kbd> <kbd>V</kbd> and press <kbd>Return</kbd>.
+                  <!-- No -r: on macOS 15+ the recursive form fails with
+                       "Operation not permitted" inside an installed app. -->
+                  <pre class="select-all"><code>xattr -d com.apple.quarantine "/Applications/Sanctum Desktop.app"</code></pre>
+                  Nothing is printed when it works. That's normal.
+                </li>
+                <li>
+                  Close Terminal and open Sanctum from Applications as usual.
+                </li>
+              </ol>
               <p>
-                No terminal? Open it once, then go to
-                <strong>System Settings → Privacy &amp; Security</strong> and
-                choose <strong>Open Anyway</strong>. Apple Silicon only; there is
-                no Intel build.
+                Do this again after downloading a new version. If macOS instead
+                says the app "cannot be verified", you can skip Terminal: try to
+                open it once, then go to
+                <strong>System Settings → Privacy &amp; Security</strong>, scroll
+                to the bottom and choose <strong>Open Anyway</strong>.
               </p>
+              <p>Apple Silicon Macs only; there is no Intel build.</p>
             </article>
 
             <article class="instructions" data-for="linux">
