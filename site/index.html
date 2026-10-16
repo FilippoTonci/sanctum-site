@@ -50,6 +50,7 @@
         <nav aria-label="Sections">
           <a href="#how">How it works</a>
           <a href="#see">See it</a>
+          <a href="#feedback">Feedback</a>
           <a class="btn btn-primary btn-sm" href="#download">Download</a>
         </nav>
       </div>
@@ -431,13 +432,38 @@
           </div>
         </div>
       </section>
+
+      <!-- ================= Feedback ================= -->
+      <!-- Email first: the people this is for rarely have a GitHub account,
+           and the app collects nothing, so this is the only way we hear
+           what it missed. -->
+      <section id="feedback" class="feedback">
+        <div class="wrap feedback-inner">
+          <div>
+            <p class="eyebrow">Feedback</p>
+            <h2>Tried it? Tell us.</h2>
+            <p class="lede">
+              Sanctum sends nothing home, so we only learn what it missed if you
+              say so. What did you try it on, what worked, what slipped through?
+            </p>
+            <p class="feedback-warning">
+              Describe the problem. Never attach a client document, or paste
+              the names Sanctum missed.
+            </p>
+          </div>
+          <div class="feedback-actions">
+            <a class="btn btn-primary btn-lg" href="mailto:feedback@sanctum.me.uk?subject=Sanctum%20feedback&amp;body=What%20did%20you%20try%20Sanctum%20on%3F%20%28The%20kind%20of%20document%2C%20not%20the%20document%20itself.%29%0A%0AWhat%20worked%3F%0A%0AWhat%20did%20it%20miss%2C%20or%20get%20wrong%3F%0A%0AYour%20computer%20%28macOS%20or%20Linux%29%20and%20the%20Sanctum%20version%3A%0A">Send feedback</a>
+            <a class="btn btn-lg" href="https://github.com/FilippoTonci/sanctum-desktop/issues">Open a GitHub issue</a>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
       <div class="wrap footer-inner">
         <p>
           Something broke, or Sanctum missed a name?
-          <a href="https://github.com/FilippoTonci/sanctum-desktop/issues">Tell us on GitHub</a>.
+          <a href="#feedback">Tell us</a>.
         </p>
         <nav aria-label="Project">
           <a href="https://github.com/FilippoTonci/sanctum-desktop">sanctum-desktop</a>

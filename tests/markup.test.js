@@ -107,3 +107,17 @@ test('the hero download works with and without JavaScript', () => {
   assert.ok(hero[0].includes(`href="${BASE}/${ASSETS.mac}"`), 'hero mac button has no real href')
   assert.ok(hero[0].includes(`href="${BASE}/${ASSETS.linux}"`), 'hero linux button has no real href')
 })
+
+// The site is the only feedback channel: the app sends nothing home. Testers
+// are lawyers and consultants, so the main route has to be email, not GitHub.
+test('feedback is reachable by email without a GitHub account', () => {
+  const section = html.match(/<section id="feedback"[\s\S]*?<\/section>/)
+  assert.ok(section, 'no #feedback section')
+  assert.match(section[0], /<a\b[^>]*href="mailto:[^"@]+@[^"]+"/, 'no mailto link in #feedback')
+  assert.match(section[0], /never attach a client document/i)
+  assert.match(html, /<nav aria-label="Sections">[\s\S]*?href="#feedback"/)
+})
+
+test('the feedback address is not a placeholder', () => {
+  assert.doesNotMatch(html, /example\.invalid/, 'replace the placeholder feedback address')
+})

@@ -1,7 +1,7 @@
 # sanctum-site
 
 The download page for [Sanctum Desktop](https://github.com/FilippoTonci/sanctum-desktop),
-served by GitHub Pages at <https://filippotonci.github.io/sanctum-site>.
+served by GitHub Pages at <https://sanctum.me.uk>.
 
 Static HTML and CSS. No build step, no npm dependencies. What is committed is
 what is served.
@@ -46,6 +46,17 @@ dark per format, same filenames.
 
 The hero's app window is HTML and CSS, not an image. Its un-animated styles
 are the finished frame, so reduced-motion visitors see the end result.
+
+## Domain
+
+`sanctum.me.uk` is a GitHub Pages custom domain, set in this repo's
+Settings → Pages (with HTTPS enforced). There is no `CNAME` file: Pages deploys
+from the Actions workflow, which ignores one. DNS lives at Cloudflare — four
+`A` records on the apex to GitHub's Pages IPs and a `www` CNAME to
+`filippotonci.github.io`, all DNS-only (grey cloud) so GitHub can issue the
+certificate. The old `filippotonci.github.io/sanctum-site` URL redirects here.
+The same zone carries Email Routing for `feedback@sanctum.me.uk`; leave its
+MX/SPF/DKIM records alone.
 
 ## Local preview
 
