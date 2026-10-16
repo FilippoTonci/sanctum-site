@@ -42,12 +42,16 @@ test('the macOS download states it is Apple Silicon only', () => {
   assert.match(macLink[0], /Apple Silicon/i)
 })
 
-test('Windows is shown as unavailable and is not a link', () => {
-  assert.match(html, /Windows/)
-  assert.ok(
-    !/<a[^>]*data-platform="windows"/.test(html),
-    'Windows must not be a download link until build-windows is enabled',
-  )
+test('the Windows download is the 64-bit installer', () => {
+  const winLink = html.match(/<a[^>]*data-platform="windows"[\s\S]*?<\/a>/)
+  assert.ok(winLink, 'no windows download link found')
+  assert.match(winLink[0], /Sanctum-Desktop-Setup-x64\.exe/)
+  assert.match(winLink[0], /64-bit/)
+})
+
+test('the Windows instructions explain getting past SmartScreen', () => {
+  assert.match(html, /More info/)
+  assert.match(html, /Run anyway/)
 })
 
 test('the unsigned warning and the unblock command are both present', () => {

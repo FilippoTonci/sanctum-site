@@ -77,16 +77,6 @@ test('--text-3 is darker than the app value, so it passes on the page background
   assert.ok(ratio >= 4.5, `--text-3 on --bg is ${ratio.toFixed(2)}:1`)
 })
 
-test('the unavailable download row recedes by colour, not opacity', () => {
-  const body = rule('\\.dl-unavailable')
-  assert.doesNotMatch(
-    body,
-    /opacity/,
-    'opacity would drag the only text explaining the missing Windows build below AA',
-  )
-  assert.match(body, /color:/)
-})
-
 test('first-run instructions are never dimmed by opacity', () => {
   assert.doesNotMatch(
     css.replace(/\/\*[\s\S]*?\*\//g, ''),
