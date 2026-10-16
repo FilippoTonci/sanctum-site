@@ -35,9 +35,10 @@ if [ "${#urls[@]}" -eq 0 ]; then
   exit 1
 fi
 
-# Guards against a link silently disappearing: macOS dmg, Linux AppImage, deb.
-if [ "${#urls[@]}" -ne 3 ]; then
-  printf 'FAIL: expected 3 distinct download URLs in site/index.html, found %d:\n' "${#urls[@]}" >&2
+# Guards against a link silently disappearing: macOS dmg, Windows exe, Linux
+# AppImage, deb.
+if [ "${#urls[@]}" -ne 4 ]; then
+  printf 'FAIL: expected 4 distinct download URLs in site/index.html, found %d:\n' "${#urls[@]}" >&2
   printf '      %s\n' "${urls[@]}" >&2
   exit 1
 fi

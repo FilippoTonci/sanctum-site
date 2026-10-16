@@ -61,16 +61,6 @@ a.dl:hover {
   color: var(--text-2);
 }
 
-.dl-unavailable .dl {
-  /* Not opacity: it composited this text below AA, and it is the only thing
-     telling a Windows visitor why there is no button. Colour and a dashed
-     border make it recede instead. */
-  color: var(--text-2);
-  background: transparent;
-  border-style: dashed;
-  cursor: not-allowed;
-}
-
 .version {
   margin: 1rem 0 0;
   font-size: 0.9rem;
