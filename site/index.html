@@ -355,11 +355,15 @@
                   <span class="dl-meta">amd64 · .deb</span>
                 </a>
               </li>
-              <li class="dl-item dl-unavailable" data-for="windows">
-                <span class="dl">
+              <li class="dl-item" data-for="windows">
+                <a
+                  class="dl"
+                  data-platform="windows"
+                  href="https://github.com/FilippoTonci/sanctum-desktop/releases/latest/download/Sanctum-Desktop-Setup-x64.exe"
+                >
                   <span class="dl-os">Windows</span>
-                  <span class="dl-meta">Coming soon</span>
-                </span>
+                  <span class="dl-meta">64-bit · .exe</span>
+                </a>
               </li>
             </ul>
 
@@ -425,8 +429,18 @@
             <article class="instructions" data-for="windows">
               <h4>Windows</h4>
               <p>
-                Not yet. Without code signing, SmartScreen blocks the installer
-                outright, so it waits for a certificate.
+                Windows may say "Windows protected your PC". That is SmartScreen
+                noticing the installer isn't signed yet. Once:
+              </p>
+              <ol class="howto">
+                <li>Click <strong>More info</strong>.</li>
+                <li>Click <strong>Run anyway</strong>.</li>
+              </ol>
+              <p>
+                Sanctum installs for your user only, so it doesn't need admin
+                rights. A work computer managed by IT may block unsigned
+                installers altogether; if there is no <strong>Run anyway</strong>
+                button, ask IT, or wait for the signed release.
               </p>
             </article>
           </div>
